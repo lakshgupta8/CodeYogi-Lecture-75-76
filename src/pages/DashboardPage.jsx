@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { memo, useState } from "react";
+import { useState } from "react";
 import { FaUser, FaBoxOpen, FaHeart, FaCog } from "react-icons/fa";
 import WithUser from "../components/WithUser";
 import Alert from "../components/Alert";
@@ -111,5 +111,5 @@ const Dashboard = ({ user, logout, navigate }) => {
   );
 };
 
-const DashboardWithUser = WithUser(memo(Dashboard));
+const DashboardWithUser = WithUser(Dashboard);
 export default DashboardWithUser;

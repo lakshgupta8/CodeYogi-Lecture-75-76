@@ -1,4 +1,3 @@
-import { memo } from "react";
 import {
   HiOutlineUser,
   HiOutlineMail,
@@ -59,4 +58,4 @@ function Input({
   );
 }
 
-export default memo(Input);
+export default Input;

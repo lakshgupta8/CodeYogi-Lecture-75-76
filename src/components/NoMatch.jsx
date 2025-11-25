@@ -1,14 +1,6 @@
-import { memo, useCallback } from "react";
 import noresultimage from "/images/noresult.svg";
 
 function NoMatch({ searchQuery, onClearSearch }) {
-  const handleClearSearch = useCallback(
-    function () {
-      onClearSearch();
-    },
-    [onClearSearch]
-  );
-
   return (
     <div className="flex flex-col items-center gap-4 text-center">
       <img
@@ -23,7 +15,7 @@ function NoMatch({ searchQuery, onClearSearch }) {
       </p>
 
       <button
-        onClick={handleClearSearch}
+        onClick={() => onClearSearch()}
         className="bg-primary-default hover:bg-primary-medium px-5 py-2 rounded-3xl font-medium text-white"
       >
         Clear Search
@@ -32,4 +24,4 @@ function NoMatch({ searchQuery, onClearSearch }) {
   );
 }
 
-export default memo(NoMatch);
+export default NoMatch;

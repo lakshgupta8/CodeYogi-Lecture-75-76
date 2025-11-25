@@ -1,4 +1,3 @@
-import { memo } from "react";
 import ProductCard from "./ProductCard";
 
 function ProductGrid({ products }) {
@@ -11,4 +10,4 @@ function ProductGrid({ products }) {
   );
 }
 
-export default memo(ProductGrid);
+export default ProductGrid;

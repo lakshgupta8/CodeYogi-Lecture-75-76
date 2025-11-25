@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, memo } from "react";
+import { useEffect } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import WithCart from "../components/WithCart";
 import CartDetail from "../components/CartDetail";
@@ -40,5 +40,5 @@ function CartPage(props) {
   );
 }
 
-const CartPageWithCart = WithCart(memo(CartPage));
+const CartPageWithCart = WithCart(CartPage);
 export default CartPageWithCart;
