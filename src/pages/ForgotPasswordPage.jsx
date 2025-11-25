@@ -39,6 +39,7 @@ export const ForgotPasswordPageContent = memo(
     isSubmitting,
     isValid,
     alert,
+    setAlert,
   }) => {
     return (
       <div
@@ -52,7 +53,13 @@ export const ForgotPasswordPageContent = memo(
           <h1 className="font-bold text-2xl text-center">
             Reset your password
           </h1>
-          {alert && <Alert type={alert.type} message={alert.message} />}
+          {alert && (
+            <Alert
+              type={alert.type}
+              message={alert.message}
+              onDismiss={() => setAlert(null)}
+            />
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <p className="text-sm text-center">

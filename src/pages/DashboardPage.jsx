@@ -8,9 +8,9 @@ const Dashboard = ({ user, logout, navigate }) => {
   const [alert, setAlert] = useState(null);
 
   const handleLogout = () => {
-    logout();
     setAlert({ type: "success", message: "Logout successful" });
     setTimeout(() => {
+      logout();
       navigate("/");
     }, 2000);
   };
@@ -19,7 +19,11 @@ const Dashboard = ({ user, logout, navigate }) => {
     <div className="bg-gray-100 py-10">
       <div className="mx-auto px-4 max-w-6xl">
         <div className="mb-4">
-          <Alert type={alert?.type} message={alert?.message} />
+          <Alert
+            type={alert?.type}
+            message={alert?.message}
+            onDismiss={() => setAlert(null)}
+          />
         </div>
         <h1 className="mb-8 font-bold text-gray-800 text-3xl">My Account</h1>
 

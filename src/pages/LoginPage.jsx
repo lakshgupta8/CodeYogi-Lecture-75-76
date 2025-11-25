@@ -39,6 +39,7 @@ export const LoginPageContent = memo(
     isSubmitting,
     isValid,
     status,
+    setStatus,
   }) => {
     return (
       <div
@@ -63,7 +64,13 @@ export const LoginPageContent = memo(
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {status && <Alert type="error" message={status} />}
+            {status && (
+              <Alert
+                type="error"
+                message={status}
+                onDismiss={() => setStatus(null)}
+              />
+            )}
             <Input
               id="email"
               name="email"
