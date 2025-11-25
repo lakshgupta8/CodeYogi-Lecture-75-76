@@ -1,4 +1,5 @@
-import { memo } from "react";
+import { memo, useState } from "react";
+import Alert from "../components/Alert";
 import { useNavigate, Link } from "react-router-dom";
 import { FaAmazon } from "react-icons/fa";
 import { withFormik } from "formik";
@@ -6,9 +7,14 @@ import * as Yup from "yup";
 import Input from "../components/Input";
 
 function callForgotPasswordApi(values, { setSubmitting, props }) {
-  const { navigate } = props;
-  alert(`Password reset link sent to ${values.email}`);
-  navigate("/login");
+  const { navigate, setAlert } = props;
+  setAlert({
+    type: "success",
+    message: `Password reset link sent to ${values.email}`,
+  });
+  setTimeout(() => {
+    navigate("/login");
+  }, 2000);
   setSubmitting(false);
 }
 
@@ -32,6 +38,7 @@ export const ForgotPasswordPageContent = memo(
     handleSubmit,
     isSubmitting,
     isValid,
+    alert,
   }) => {
     return (
       <div
@@ -45,6 +52,7 @@ export const ForgotPasswordPageContent = memo(
           <h1 className="font-bold text-2xl text-center">
             Reset your password
           </h1>
+          {alert && <Alert type={alert.type} message={alert.message} />}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <p className="text-sm text-center">
@@ -98,5 +106,12 @@ const EnhancedForgotPasswordPage = withFormik({
 
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
-  return <EnhancedForgotPasswordPage navigate={navigate} />;
+  const [alert, setAlert] = useState(null);
+  return (
+    <EnhancedForgotPasswordPage
+      navigate={navigate}
+      alert={alert}
+      setAlert={setAlert}
+    />
+  );
 }

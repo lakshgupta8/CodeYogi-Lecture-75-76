@@ -1,18 +1,26 @@
 import { Link } from "react-router-dom";
-import { memo } from "react";
+import { memo, useState } from "react";
 import { FaUser, FaBoxOpen, FaHeart, FaCog } from "react-icons/fa";
 import WithUser from "../components/WithUser";
+import Alert from "../components/Alert";
 
 const Dashboard = ({ user, logout, navigate }) => {
+  const [alert, setAlert] = useState(null);
+
   const handleLogout = () => {
     logout();
-    navigate("/");
-    alert("Logout successful");
+    setAlert({ type: "success", message: "Logout successful" });
+    setTimeout(() => {
+      navigate("/");
+    }, 2000);
   };
 
   return (
     <div className="bg-gray-100 py-10">
       <div className="mx-auto px-4 max-w-6xl">
+        <div className="mb-4">
+          <Alert type={alert?.type} message={alert?.message} />
+        </div>
         <h1 className="mb-8 font-bold text-gray-800 text-3xl">My Account</h1>
 
         <div className="gap-6 grid grid-cols-1 md:grid-cols-3">

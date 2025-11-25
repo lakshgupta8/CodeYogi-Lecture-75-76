@@ -4,6 +4,7 @@ import { FaAmazon } from "react-icons/fa";
 import { withFormik } from "formik";
 import * as Yup from "yup";
 import Input from "../components/Input";
+import Alert from "../components/Alert";
 import WithUser from "../components/WithUser";
 import { signInUser } from "../api";
 
@@ -62,11 +63,7 @@ export const LoginPageContent = memo(
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {status && (
-              <div className="bg-primary-dark bg-opacity-75 p-2 rounded text-white text-center">
-                {status}
-              </div>
-            )}
+            {status && <Alert type="error" message={status} />}
             <Input
               id="email"
               name="email"

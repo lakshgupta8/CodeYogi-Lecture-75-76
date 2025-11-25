@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import Input from "../components/Input";
 import { signupUser } from "../api";
 import WithUser from "../components/WithUser";
+import Alert from "../components/Alert";
 
 const validationSchema = Yup.object().shape({
   Name: Yup.string().required("Name is required"),
@@ -68,11 +69,7 @@ export const SignUpPageContent = memo(
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {status && (
-              <div className="bg-primary-dark bg-opacity-75 p-2 rounded text-white text-center">
-                {status}
-              </div>
-            )}
+            {status && <Alert type="error" message={status} />}
             <Input
               id="Name"
               name="Name"
