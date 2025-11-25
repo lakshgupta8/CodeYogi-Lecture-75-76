@@ -22,7 +22,7 @@ const initialValues = {
   email: "",
 };
 
-export const ForgotPasswordPage = memo(
+export const ForgotPasswordPageContent = memo(
   ({
     values,
     errors,
@@ -94,9 +94,9 @@ const EnhancedForgotPasswordPage = withFormik({
   validationSchema: validationSchema,
   handleSubmit: callForgotPasswordApi,
   validateOnMount: true,
-})(ForgotPasswordPage);
+})(ForgotPasswordPageContent);
 
-export default function ForgotPasswordPageWithNavigate() {
+export default function ForgotPasswordPage() {
   const navigate = useNavigate();
   return <EnhancedForgotPasswordPage navigate={navigate} />;
 }

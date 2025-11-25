@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, memo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { HiOutlineShoppingBag, HiOutlineViewList } from "react-icons/hi";
 import WithCart from "./WithCart";
@@ -107,5 +107,5 @@ function Navbar(props) {
   );
 }
 
-const NavbarWithCart = WithCart(Navbar);
+const NavbarWithCart = WithCart(memo(Navbar));
 export default NavbarWithCart;

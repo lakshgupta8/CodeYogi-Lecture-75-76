@@ -27,7 +27,7 @@ const initialValues = {
   password: "",
 };
 
-export const LoginPage = memo(
+export const LoginPageContent = memo(
   ({
     values,
     errors,
@@ -143,7 +143,7 @@ const EnhancedLoginPage = withFormik({
       });
   },
   validateOnMount: true,
-})(LoginPage);
+})(LoginPageContent);
 
-const LoginPageWithUser = WithUser(EnhancedLoginPage);
-export default LoginPageWithUser;
+const LoginPage = WithUser(EnhancedLoginPage);
+export default LoginPage;

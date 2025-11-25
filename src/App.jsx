@@ -12,6 +12,7 @@ import SignUpPage from "./pages/SignUpPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import DashboardPage from "./pages/DashboardPage";
 import UserRoute from "./components/UserRoute";
+import AuthRoute from "./components/AuthRoute";
 
 function App() {
   const location = useLocation();
@@ -32,9 +33,30 @@ function App() {
               <Route index element={<HomePage />} />
               <Route path="/product/:id" element={<ProductDetailPage />} />
               <Route path="/cart" element={<CartPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignUpPage />} />
-              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route
+                path="/login"
+                element={
+                  <AuthRoute>
+                    <LoginPage />
+                  </AuthRoute>
+                }
+              />
+              <Route
+                path="/signup"
+                element={
+                  <AuthRoute>
+                    <SignUpPage />
+                  </AuthRoute>
+                }
+              />
+              <Route
+                path="/forgot-password"
+                element={
+                  <AuthRoute>
+                    <ForgotPasswordPage />
+                  </AuthRoute>
+                }
+              />
               <Route
                 path="/dashboard"
                 element={

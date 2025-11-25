@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { memo } from "react";
 import { FaUser, FaBoxOpen, FaHeart, FaCog } from "react-icons/fa";
 import WithUser from "../components/WithUser";
 
@@ -98,5 +99,5 @@ const Dashboard = ({ user, logout, navigate }) => {
   );
 };
 
-const DashboardWithUser = WithUser(Dashboard);
+const DashboardWithUser = WithUser(memo(Dashboard));
 export default DashboardWithUser;

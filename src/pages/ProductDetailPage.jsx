@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, memo } from "react";
 import { useParams, useLocation, Link } from "react-router-dom";
 import {
   HiArrowSmLeft,
@@ -169,5 +169,5 @@ function ProductDetailPage(props) {
   );
 }
 
-const ProductDetailPageWithCart = WithCart(ProductDetailPage);
+const ProductDetailPageWithCart = WithCart(memo(ProductDetailPage));
 export default ProductDetailPageWithCart;

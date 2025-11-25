@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { UserContext } from "./UserContext.js";
 import axios from "axios";
 
@@ -31,7 +31,7 @@ export const UserProvider = ({ children }) => {
     }
   }, [token]);
 
-  const login = (user, token) => {
+  const login = useCallback((user, token) => {
     localStorage.setItem("token", token);
     setToken(token);
     setLoading(true);
@@ -39,19 +39,20 @@ export const UserProvider = ({ children }) => {
       setUser(user);
       setLoading(false);
     }
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem("token");
     setToken(null);
     setUser(null);
-  };
+  }, []);
 
-  return (
-    <UserContext.Provider value={{ user, loading, login, logout }}>
-      {children}
-    </UserContext.Provider>
+  const value = useMemo(
+    () => ({ user, loading, login, logout }),
+    [user, loading, login, logout]
   );
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export default UserProvider;

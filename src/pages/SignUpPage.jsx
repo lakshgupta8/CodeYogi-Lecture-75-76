@@ -33,7 +33,7 @@ const initialValues = {
   confirmPassword: "",
 };
 
-export const SignUpPage = memo(
+export const SignUpPageContent = memo(
   ({
     values,
     errors,
@@ -170,7 +170,7 @@ const EnhancedSignUpPage = withFormik({
       });
   },
   validateOnMount: true,
-})(SignUpPage);
+})(SignUpPageContent);
 
-const SignUpPageWithUser = WithUser(EnhancedSignUpPage);
-export default SignUpPageWithUser;
+const SignUpPage = WithUser(EnhancedSignUpPage);
+export default SignUpPage;

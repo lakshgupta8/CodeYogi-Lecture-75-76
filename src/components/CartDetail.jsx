@@ -1,3 +1,4 @@
+import { memo } from "react";
 import WithCart from "./WithCart";
 import CartList from "./CartList";
 import CartTotals from "./CartTotals";
@@ -43,5 +44,5 @@ function CartDetail(props) {
   );
 }
 
-const CartDetailWithCart = WithCart(CartDetail);
+const CartDetailWithCart = WithCart(memo(CartDetail));
 export default CartDetailWithCart;
