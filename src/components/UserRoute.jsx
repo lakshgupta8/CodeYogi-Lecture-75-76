@@ -1,11 +1,8 @@
-import { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
 import Loading from "./Loading";
+import WithUser from "./WithUser";
 
-const UserRoute = ({ children }) => {
-  const { user, loading } = useContext(UserContext);
-
+const UserRoute = ({ children, user, loading }) => {
   if (loading) {
     return <Loading />;
   }
@@ -17,4 +14,5 @@ const UserRoute = ({ children }) => {
   return children;
 };
 
-export default UserRoute;
+const UserRouteWithUser = WithUser(UserRoute);
+export default UserRouteWithUser;

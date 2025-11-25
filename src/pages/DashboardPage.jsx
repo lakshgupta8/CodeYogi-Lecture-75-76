@@ -1,13 +1,8 @@
-import { useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaUser, FaBoxOpen, FaHeart, FaCog } from "react-icons/fa";
-import { UserContext } from "../context/UserContext.js";
+import WithUser from "../components/WithUser";
 
-const Dashboard = () => {
-  const { user, logout } = useContext(UserContext);
-
-  const navigate = useNavigate();
-
+const Dashboard = ({ user, logout, navigate }) => {
   const handleLogout = () => {
     logout();
     navigate("/");
@@ -103,4 +98,5 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+const DashboardWithUser = WithUser(Dashboard);
+export default DashboardWithUser;

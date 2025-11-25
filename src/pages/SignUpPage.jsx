@@ -1,11 +1,11 @@
-import { memo, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { memo } from "react";
+import { Link } from "react-router-dom";
 import { FaAmazon } from "react-icons/fa";
 import { withFormik } from "formik";
 import * as Yup from "yup";
 import Input from "../components/Input";
 import { signupUser } from "../api";
-import { UserContext } from "../context/UserContext.js";
+import WithUser from "../components/WithUser";
 
 const validationSchema = Yup.object().shape({
   Name: Yup.string().required("Name is required"),
@@ -172,8 +172,5 @@ const EnhancedSignUpPage = withFormik({
   validateOnMount: true,
 })(SignUpPage);
 
-export default function SignUpPageWithNavigate() {
-  const navigate = useNavigate();
-  const { login } = useContext(UserContext);
-  return <EnhancedSignUpPage navigate={navigate} login={login} />;
-}
+const SignUpPageWithUser = WithUser(EnhancedSignUpPage);
+export default SignUpPageWithUser;

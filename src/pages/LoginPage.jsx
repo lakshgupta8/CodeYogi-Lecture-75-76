@@ -1,10 +1,10 @@
-import { memo, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { memo } from "react";
+import { Link } from "react-router-dom";
 import { FaAmazon } from "react-icons/fa";
 import { withFormik } from "formik";
 import * as Yup from "yup";
 import Input from "../components/Input";
-import { UserContext } from "../context/UserContext.js";
+import WithUser from "../components/WithUser";
 import { signInUser } from "../api";
 
 const validationSchema = Yup.object().shape({
@@ -145,8 +145,5 @@ const EnhancedLoginPage = withFormik({
   validateOnMount: true,
 })(LoginPage);
 
-export default function LoginPageWithNavigate() {
-  const navigate = useNavigate();
-  const { login } = useContext(UserContext);
-  return <EnhancedLoginPage navigate={navigate} login={login} />;
-}
+const LoginPageWithUser = WithUser(EnhancedLoginPage);
+export default LoginPageWithUser;
