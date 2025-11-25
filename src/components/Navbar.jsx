@@ -1,13 +1,13 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { HiOutlineShoppingBag, HiOutlineViewList } from "react-icons/hi";
-import { useCart } from "../hooks/useCart";
+import WithCart from "./WithCart";
 import MobileMenu from "./MobileMenu";
 
-function Navbar() {
+function Navbar(props) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const { count } = useCart();
+  const { count } = props;
 
   const navLinks = useMemo(
     () => [
@@ -107,4 +107,5 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+const NavbarWithCart = WithCart(Navbar);
+export default NavbarWithCart;

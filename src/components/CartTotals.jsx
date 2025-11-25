@@ -1,8 +1,8 @@
 import { memo } from "react";
-import { useCart } from "../hooks/useCart";
+import WithCart from "./WithCart";
 
-function CartTotals() {
-  const { subtotal } = useCart();
+function CartTotals(props) {
+  const { subtotal } = props;
   return (
     <div className="md:ml-auto border border-gray-300 md:w-2/5 text-gray-800">
       <div className="bg-gray-50 px-4 border-gray-300 border-b">
@@ -28,4 +28,5 @@ function CartTotals() {
   );
 }
 
-export default memo(CartTotals);
+const CartTotalsWithCart = WithCart(memo(CartTotals));
+export default CartTotalsWithCart;

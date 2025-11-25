@@ -1,11 +1,11 @@
 import { memo, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { TiDeleteOutline } from "react-icons/ti";
-import { useCart } from "../hooks/useCart";
+import WithCart from "./WithCart";
 
-function CartRow({ item }) {
-  const { updateQuantity, removeFromCart, getItemSubtotal, cartItems } =
-    useCart();
+function CartRow(props) {
+  const { item } = props;
+  const { updateQuantity, removeFromCart, getItemSubtotal, cartItems } = props;
   const quantity = item.quantity ?? 1;
   const savedQuantity = cartItems[item.id] ?? item.quantity ?? 1;
   const subtotal = useMemo(
@@ -109,4 +109,5 @@ function CartRow({ item }) {
   );
 }
 
-export default memo(CartRow);
+const CartRowWithCart = WithCart(memo(CartRow));
+export default CartRowWithCart;

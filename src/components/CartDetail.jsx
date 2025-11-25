@@ -1,9 +1,9 @@
-import { useCart } from "../hooks/useCart";
+import WithCart from "./WithCart";
 import CartList from "./CartList";
 import CartTotals from "./CartTotals";
 
-function CartDetail() {
-  const { updateCart } = useCart();
+function CartDetail(props) {
+  const { updateCart } = props;
 
   return (
     <div className="flex flex-col">
@@ -43,4 +43,5 @@ function CartDetail() {
   );
 }
 
-export default CartDetail;
+const CartDetailWithCart = WithCart(CartDetail);
+export default CartDetailWithCart;
