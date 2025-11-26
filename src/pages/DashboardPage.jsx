@@ -1,9 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaBoxOpen, FaHeart, FaCog } from "react-icons/fa";
-import WithUser from "../components/WithUser";
-import withAlert from "../components/withAlert";
+import { useUser } from "../context/UserContext";
+import { useAlert } from "../context/AlertContext";
 
-const Dashboard = ({ user, logout, navigate, showAlert }) => {
+const Dashboard = () => {
+  const { user, logout } = useUser();
+  const navigate = useNavigate();
+  const { showAlert } = useAlert();
+
   const handleLogout = () => {
     showAlert("Logout successful", "success");
     logout();
@@ -99,5 +103,4 @@ const Dashboard = ({ user, logout, navigate, showAlert }) => {
   );
 };
 
-const DashboardWithUser = WithUser(withAlert(Dashboard));
-export default DashboardWithUser;
+export default Dashboard;

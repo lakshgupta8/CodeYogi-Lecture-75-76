@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {
   HiCheckCircle,
   HiXCircle,
@@ -21,35 +20,11 @@ const icons = {
   warning: <HiExclamation className="w-5 h-5" />,
 };
 
-function Alert({ type = "info", message, onDismiss }) {
-  const [visible, setVisible] = useState(false);
-  const [fading, setFading] = useState(false);
+function Alert({ type = "info", message, onDismiss, fading }) {
+  if (!message) return null;
 
-  useEffect(() => {
-    if (message) {
-      setVisible(true);
-      setFading(false);
-      const fadeTimer = setTimeout(() => {
-        setFading(true);
-      }, 5000);
-      const dismissTimer = setTimeout(() => {
-        setVisible(false);
-        if (onDismiss) {
-          onDismiss();
-        }
-      }, 5500);
-
-      return () => {
-        clearTimeout(fadeTimer);
-        clearTimeout(dismissTimer);
-      };
-    }
-  }, [message, onDismiss]);
-
-  if (!visible || !message) return null;
-
-  const typeClass = themeClasses[type] || themeClasses.info;
-  const icon = icons[type] || icons.info;
+  const typeClass = themeClasses[type];
+  const icon = icons[type];
 
   return (
     <div

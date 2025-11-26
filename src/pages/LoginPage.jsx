@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { withFormik } from "formik";
 import * as Yup from "yup";
 import Input from "../components/Input";
-import withAlert from "../components/withAlert";
-import WithUser from "../components/WithUser";
+import { useUser } from "../context/UserContext";
+import { useAlert } from "../context/AlertContext";
 import { signInUser } from "../api";
 
 const validationSchema = Yup.object().shape({
@@ -140,5 +140,19 @@ const EnhancedLoginPage = withFormik({
   validateOnMount: true,
 })(LoginPageContent);
 
-const LoginPage = WithUser(withAlert(EnhancedLoginPage));
+const LoginPage = () => {
+  const { showAlert } = useAlert();
+  const { user, login } = useUser();
+  const navigate = useNavigate();
+
+  return (
+    <EnhancedLoginPage
+      user={user}
+      login={login}
+      navigate={navigate}
+      showAlert={showAlert}
+    />
+  );
+};
+
 export default LoginPage;

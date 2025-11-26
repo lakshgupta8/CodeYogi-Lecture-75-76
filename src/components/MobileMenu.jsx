@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { HiOutlineShoppingBag, HiX } from "react-icons/hi";
 import { memo } from "react";
-import WithCart from "./WithCart";
+import { useCart } from "../context/CartContext";
 
 function MobileMenu(props) {
   const { isOpen, onClose, navLinks, location } = props;
-  const { count } = props;
+  const { count } = useCart();
 
   if (!isOpen) return null;
 
@@ -83,5 +83,4 @@ function MobileMenu(props) {
   );
 }
 
-const MobileMenuWithCart = WithCart(memo(MobileMenu));
-export default MobileMenuWithCart;
+export default memo(MobileMenu);

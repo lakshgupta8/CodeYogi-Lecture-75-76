@@ -1,18 +1,18 @@
 import { useState, useEffect, useMemo, useCallback, memo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { HiOutlineShoppingBag, HiOutlineViewList } from "react-icons/hi";
-import WithCart from "./WithCart";
+import { useCart } from "../context/CartContext";
 import MobileMenu from "./MobileMenu";
 
-function Navbar(props) {
+function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const { count } = props;
+  const { count } = useCart();
 
   const navLinks = useMemo(
     () => [
-      { name: "HOME", to: "/" },
-      { name: "ALL PRODUCTS", to: "/products" },
+      { name: "HOME", to: "/home" },
+      { name: "ALL PRODUCTS", to: "/" },
       { name: "ABOUT", to: "/about" },
       { name: "CONTACT", to: "/contact" },
       { name: "ACCOUNT  ↯", to: "/dashboard" },
@@ -107,5 +107,4 @@ function Navbar(props) {
   );
 }
 
-const NavbarWithCart = WithCart(memo(Navbar));
-export default NavbarWithCart;
+export default memo(Navbar);

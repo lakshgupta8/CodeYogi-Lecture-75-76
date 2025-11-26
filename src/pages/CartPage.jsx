@@ -1,14 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import WithCart from "../components/WithCart";
+import { useCart } from "../context/CartContext";
 import CartDetail from "../components/CartDetail";
 import EmptyCart from "../components/EmptyCart";
 import Loading from "../components/Loading";
 
-function CartPage(props) {
+function CartPage() {
   const location = useLocation();
-  const { cartItemsData, loading, resetPendingQuantities } = props;
+  const { cartItemsData, loading, resetPendingQuantities } = useCart();
 
   useEffect(
     function () {
@@ -40,5 +40,4 @@ function CartPage(props) {
   );
 }
 
-const CartPageWithCart = WithCart(CartPage);
-export default CartPageWithCart;
+export default CartPage;

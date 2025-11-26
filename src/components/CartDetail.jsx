@@ -1,9 +1,9 @@
-import WithCart from "./WithCart";
+import { useCart } from "../context/CartContext";
 import CartList from "./CartList";
 import CartTotals from "./CartTotals";
 
-function CartDetail(props) {
-  const { updateCart } = props;
+function CartDetail() {
+  const { updateCart } = useCart();
 
   return (
     <div className="flex flex-col">
@@ -43,5 +43,4 @@ function CartDetail(props) {
   );
 }
 
-const CartDetailWithCart = WithCart(CartDetail);
-export default CartDetailWithCart;
+export default CartDetail;

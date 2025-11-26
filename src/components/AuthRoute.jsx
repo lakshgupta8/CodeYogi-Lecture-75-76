@@ -1,8 +1,10 @@
 import { Navigate } from "react-router-dom";
 import Loading from "./Loading";
-import WithUser from "./WithUser";
+import { useUser } from "../context/UserContext";
 
-const AuthRoute = ({ children, user, loading }) => {
+const AuthRoute = ({ children }) => {
+  const { user, loading } = useUser();
+
   if (loading) {
     return <Loading />;
   }
@@ -14,5 +16,4 @@ const AuthRoute = ({ children, user, loading }) => {
   return children;
 };
 
-const AuthRouteWithUser = WithUser(AuthRoute);
-export default AuthRouteWithUser;
+export default AuthRoute;

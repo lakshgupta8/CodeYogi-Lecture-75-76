@@ -1,9 +1,9 @@
 import { memo, useMemo } from "react";
-import WithCart from "./WithCart";
+import { useCart } from "../context/CartContext";
 import CartRow from "./CartRow";
 
-function CartList(props) {
-  const { cartItemsData } = props;
+function CartList() {
+  const { cartItemsData } = useCart();
 
   const rows = useMemo(
     function () {
@@ -21,5 +21,4 @@ function CartList(props) {
   );
 }
 
-const CartListWithCart = WithCart(memo(CartList));
-export default CartListWithCart;
+export default memo(CartList);

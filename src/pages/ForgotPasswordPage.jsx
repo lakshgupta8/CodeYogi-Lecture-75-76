@@ -1,5 +1,5 @@
 import { useNavigate, Link } from "react-router-dom";
-import withAlert from "../components/withAlert";
+import { useAlert } from "../context/AlertContext";
 import { withFormik } from "formik";
 import * as Yup from "yup";
 import Input from "../components/Input";
@@ -95,13 +95,12 @@ const EnhancedForgotPasswordPage = withFormik({
   validateOnMount: true,
 })(ForgotPasswordPageContent);
 
-function ForgotPasswordPage({ showAlert }) {
+function ForgotPasswordPage() {
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
   return (
     <EnhancedForgotPasswordPage navigate={navigate} showAlert={showAlert} />
   );
 }
 
-const ForgotPasswordPageWithAlert = withAlert(ForgotPasswordPage);
-
-export default ForgotPasswordPageWithAlert;
+export default ForgotPasswordPage;

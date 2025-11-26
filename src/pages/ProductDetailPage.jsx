@@ -5,15 +5,15 @@ import {
   HiArrowSmRight,
   HiOutlineArrowNarrowLeft,
 } from "react-icons/hi";
-import WithCart from "../components/WithCart";
+import { useCart } from "../context/CartContext";
 import NotFound from "../components/NotFound";
 import LoadingProduct from "../components/LoadingProduct";
 import { getProduct } from "../api";
 
-function ProductDetailPage(props) {
+const ProductDetailPage = () => {
   const id = +useParams().id;
   const location = useLocation();
-  const { addToCart } = props;
+  const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -167,7 +167,6 @@ function ProductDetailPage(props) {
       )}
     </>
   );
-}
+};
 
-const ProductDetailPageWithCart = WithCart(ProductDetailPage);
-export default ProductDetailPageWithCart;
+export default ProductDetailPage;
