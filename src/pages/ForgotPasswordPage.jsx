@@ -1,19 +1,13 @@
-import { useState } from "react";
-import Alert from "../components/Alert";
 import { useNavigate, Link } from "react-router-dom";
+import withAlert from "../components/withAlert";
 import { withFormik } from "formik";
 import * as Yup from "yup";
 import Input from "../components/Input";
 
 function callForgotPasswordApi(values, { setSubmitting, props }) {
-  const { navigate, setAlert } = props;
-  setAlert({
-    type: "success",
-    message: `Password reset link sent to ${values.email}`,
-  });
-  setTimeout(() => {
-    navigate("/login");
-  }, 2000);
+  const { navigate, showAlert } = props;
+  showAlert(`Password reset link sent to ${values.email}`, "success");
+  navigate("/login");
   setSubmitting(false);
 }
 
@@ -36,8 +30,6 @@ export const ForgotPasswordPageContent = ({
   handleSubmit,
   isSubmitting,
   isValid,
-  alert,
-  setAlert,
 }) => {
   return (
     <div
@@ -53,13 +45,6 @@ export const ForgotPasswordPageContent = ({
           className="mx-auto -mb-10"
         />
         <h1 className="font-bold text-2xl text-center">Reset your password</h1>
-        {alert && (
-          <Alert
-            type={alert.type}
-            message={alert.message}
-            onDismiss={() => setAlert(null)}
-          />
-        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <p className="text-sm text-center">
@@ -110,14 +95,13 @@ const EnhancedForgotPasswordPage = withFormik({
   validateOnMount: true,
 })(ForgotPasswordPageContent);
 
-export default function ForgotPasswordPage() {
+function ForgotPasswordPage({ showAlert }) {
   const navigate = useNavigate();
-  const [alert, setAlert] = useState(null);
   return (
-    <EnhancedForgotPasswordPage
-      navigate={navigate}
-      alert={alert}
-      setAlert={setAlert}
-    />
+    <EnhancedForgotPasswordPage navigate={navigate} showAlert={showAlert} />
   );
 }
+
+const ForgotPasswordPageWithAlert = withAlert(ForgotPasswordPage);
+
+export default ForgotPasswordPageWithAlert;

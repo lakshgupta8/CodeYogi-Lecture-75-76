@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import Input from "../components/Input";
 import { signupUser } from "../api";
 import WithUser from "../components/WithUser";
-import Alert from "../components/Alert";
+import withAlert from "../components/withAlert";
 
 const validationSchema = Yup.object().shape({
   Name: Yup.string().required("Name is required"),
@@ -41,8 +41,6 @@ export const SignUpPageContent = ({
   handleSubmit,
   isSubmitting,
   isValid,
-  status,
-  setStatus,
 }) => {
   return (
     <div
@@ -69,13 +67,6 @@ export const SignUpPageContent = ({
         <h1 className="font-bold text-2xl text-center">Create Your Account</h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {status && (
-            <Alert
-              type="error"
-              message={status}
-              onDismiss={() => setStatus(null)}
-            />
-          )}
           <Input
             id="Name"
             name="Name"
@@ -154,18 +145,18 @@ export const SignUpPageContent = ({
 const EnhancedSignUpPage = withFormik({
   mapPropsToValues: () => initialValues,
   validationSchema: validationSchema,
-  handleSubmit: (values, { setSubmitting, setStatus, props }) => {
-    const navigate = props.navigate;
-    const login = props.login;
+  handleSubmit: (values, { setSubmitting, props }) => {
+    const { navigate, login, showAlert } = props;
 
     signupUser(values.Name.split(" ")[0], values.email, values.password)
       .then(({ user, token }) => {
+        showAlert("Account created successfully", "success");
         login(user, token);
         navigate("/dashboard");
       })
       .catch((error) => {
         const errorMessage = error.message || "Signup failed";
-        setStatus(errorMessage);
+        showAlert(errorMessage, "error");
       })
       .finally(() => {
         setSubmitting(false);
@@ -174,5 +165,5 @@ const EnhancedSignUpPage = withFormik({
   validateOnMount: true,
 })(SignUpPageContent);
 
-const SignUpPage = WithUser(EnhancedSignUpPage);
+const SignUpPage = WithUser(withAlert(EnhancedSignUpPage));
 export default SignUpPage;

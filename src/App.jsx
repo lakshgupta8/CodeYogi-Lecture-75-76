@@ -1,6 +1,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import CartProvider from "./context/CartProvider";
 import UserProvider from "./context/UserProvider";
+import AlertProvider from "./context/AlertProvider";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import NotFound from "./components/NotFound";
@@ -25,52 +26,54 @@ function App() {
   return (
     <UserProvider>
       <CartProvider>
-        <div className="flex flex-col bg-gray-100 min-h-screen">
-          {!isLoginPage && <Navbar />}
+        <AlertProvider>
+          <div className="flex flex-col bg-gray-100 min-h-screen">
+            {!isLoginPage && <Navbar />}
 
-          <div className="flex-1">
-            <Routes>
-              <Route index element={<HomePage />} />
-              <Route path="/product/:id" element={<ProductDetailPage />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route
-                path="/login"
-                element={
-                  <AuthRoute>
-                    <LoginPage />
-                  </AuthRoute>
-                }
-              />
-              <Route
-                path="/signup"
-                element={
-                  <AuthRoute>
-                    <SignUpPage />
-                  </AuthRoute>
-                }
-              />
-              <Route
-                path="/forgot-password"
-                element={
-                  <AuthRoute>
-                    <ForgotPasswordPage />
-                  </AuthRoute>
-                }
-              />
-              <Route
-                path="/dashboard"
-                element={
-                  <UserRoute>
-                    <DashboardPage />
-                  </UserRoute>
-                }
-              />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <div className="flex-1">
+              <Routes>
+                <Route index element={<HomePage />} />
+                <Route path="/product/:id" element={<ProductDetailPage />} />
+                <Route path="/cart" element={<CartPage />} />
+                <Route
+                  path="/login"
+                  element={
+                    <AuthRoute>
+                      <LoginPage />
+                    </AuthRoute>
+                  }
+                />
+                <Route
+                  path="/signup"
+                  element={
+                    <AuthRoute>
+                      <SignUpPage />
+                    </AuthRoute>
+                  }
+                />
+                <Route
+                  path="/forgot-password"
+                  element={
+                    <AuthRoute>
+                      <ForgotPasswordPage />
+                    </AuthRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <UserRoute>
+                      <DashboardPage />
+                    </UserRoute>
+                  }
+                />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
+
+            {!isLoginPage && <Footer />}
           </div>
-
-          {!isLoginPage && <Footer />}
-        </div>
+        </AlertProvider>
       </CartProvider>
     </UserProvider>
   );

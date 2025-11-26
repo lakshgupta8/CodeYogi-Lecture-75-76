@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { withFormik } from "formik";
 import * as Yup from "yup";
 import Input from "../components/Input";
-import Alert from "../components/Alert";
+import withAlert from "../components/withAlert";
 import WithUser from "../components/WithUser";
 import { signInUser } from "../api";
 
@@ -35,8 +35,6 @@ export const LoginPageContent = ({
   handleSubmit,
   isSubmitting,
   isValid,
-  status,
-  setStatus,
 }) => {
   return (
     <div
@@ -65,13 +63,6 @@ export const LoginPageContent = ({
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {status && (
-            <Alert
-              type="error"
-              message={status}
-              onDismiss={() => setStatus(null)}
-            />
-          )}
           <Input
             id="email"
             name="email"
@@ -130,17 +121,17 @@ export const LoginPageContent = ({
 const EnhancedLoginPage = withFormik({
   mapPropsToValues: () => initialValues,
   validationSchema: validationSchema,
-  handleSubmit: (values, { setSubmitting, setStatus, props }) => {
-    const navigate = props.navigate;
-    const login = props.login;
+  handleSubmit: (values, { setSubmitting, props }) => {
+    const { navigate, login, showAlert } = props;
     signInUser(values.email, values.password)
       .then(({ user, token }) => {
+        showAlert("Login successful", "success");
         login(user, token);
         navigate("/dashboard");
       })
       .catch((error) => {
         const errorMessage = error.message || "Login failed";
-        setStatus(errorMessage);
+        showAlert(errorMessage, "error");
       })
       .finally(() => {
         setSubmitting(false);
@@ -149,5 +140,5 @@ const EnhancedLoginPage = withFormik({
   validateOnMount: true,
 })(LoginPageContent);
 
-const LoginPage = WithUser(EnhancedLoginPage);
+const LoginPage = WithUser(withAlert(EnhancedLoginPage));
 export default LoginPage;

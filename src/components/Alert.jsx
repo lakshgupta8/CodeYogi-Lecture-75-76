@@ -1,9 +1,10 @@
-import { memo, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   HiCheckCircle,
   HiXCircle,
   HiInformationCircle,
   HiExclamation,
+  HiX,
 } from "react-icons/hi";
 
 const themeClasses = {
@@ -30,13 +31,13 @@ function Alert({ type = "info", message, onDismiss }) {
       setFading(false);
       const fadeTimer = setTimeout(() => {
         setFading(true);
-      }, 3000);
+      }, 5000);
       const dismissTimer = setTimeout(() => {
         setVisible(false);
         if (onDismiss) {
           onDismiss();
         }
-      }, 3500);
+      }, 5500);
 
       return () => {
         clearTimeout(fadeTimer);
@@ -59,8 +60,11 @@ function Alert({ type = "info", message, onDismiss }) {
     >
       <span className="opacity-90">{icon}</span>
       <span className="font-medium text-sm">{message}</span>
+      <button onClick={onDismiss} className="opacity-80 hover:opacity-100 ml-2">
+        <HiX className="w-4 h-4" />
+      </button>
     </div>
   );
 }
 
-export default memo(Alert);
+export default Alert;
