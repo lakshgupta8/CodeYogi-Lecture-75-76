@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Filter from "../components/Filter.jsx";
 import ProductGrid from "../components/ProductGrid.jsx";
 import Pagination from "../components/Pagination.jsx";
@@ -14,8 +14,24 @@ function HomePage() {
 
   useEffect(
     function () {
+      let sortBy;
+      let order;
+
+      if (sort === "title") {
+        sortBy = "title";
+        order = "asc";
+      } else if (sort === "price-asc") {
+        sortBy = "price";
+        order = "asc";
+      } else if (sort === "price-desc") {
+        sortBy = "price";
+        order = "desc";
+      }
+
       setLoading(true);
-      const promise = query ? searchProducts(query) : getProductList();
+      const promise = query
+        ? searchProducts(query, sortBy, order)
+        : getProductList(sortBy, order);
       promise
         .then(function (products) {
           setProducts(products);
@@ -26,29 +42,7 @@ function HomePage() {
           setLoading(false);
         });
     },
-    [query]
-  );
-
-  const filteredProducts = useMemo(
-    function () {
-      let filtered = productList;
-
-      if (sort === "title") {
-        filtered = filtered.sort(function (a, b) {
-          return a.title.localeCompare(b.title);
-        });
-      } else if (sort === "price-asc") {
-        filtered = filtered.sort(function (a, b) {
-          return a.price - b.price;
-        });
-      } else if (sort === "price-desc") {
-        filtered = filtered.sort(function (a, b) {
-          return b.price - a.price;
-        });
-      }
-      return filtered;
-    },
-    [productList, sort]
+    [query, sort]
   );
 
   const handleSearch = useCallback(
@@ -85,13 +79,13 @@ function HomePage() {
         />
       </div>
       {loading && <Loading />}
-      {!loading && filteredProducts.length > 0 && (
+      {!loading && productList.length > 0 && (
         <>
-          <ProductGrid products={filteredProducts} />
+          <ProductGrid products={productList} />
           <Pagination />
         </>
       )}
-      {!loading && filteredProducts.length === 0 && (
+      {!loading && productList.length === 0 && (
         <NoMatch searchQuery={query} onClearSearch={handleClearSearch} />
       )}
     </div>
