@@ -2,7 +2,7 @@ import axios from "axios";
 
 export function getProductList() {
   return axios
-    .get("https://dummyjson.com/products?limit=0")
+    .get("https://dummyjson.com/products")
     .then((response) => response.data.products);
 }
 
@@ -10,6 +10,12 @@ export function getProduct(id) {
   return axios
     .get(`https://dummyjson.com/products/${id}`)
     .then((response) => response.data);
+}
+
+export function searchProducts(query) {
+  return axios
+    .get(`https://dummyjson.com/products/search?q=${query}`)
+    .then((response) => response.data.products);
 }
 
 export function signupUser(firstName, email, password) {

@@ -4,27 +4,34 @@ import ProductGrid from "../components/ProductGrid.jsx";
 import Pagination from "../components/Pagination.jsx";
 import NoMatch from "../components/NoMatch.jsx";
 import Loading from "../components/Loading.jsx";
-import { getProductList } from "../api.js";
+import { getProductList, searchProducts } from "../api.js";
 
 function HomePage() {
   const [productList, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(function () {
-    getProductList().then(function (products) {
-      setProducts(products);
-      setLoading(false);
-    });
-  }, []);
-
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("default");
 
+  useEffect(
+    function () {
+      setLoading(true);
+      const promise = query ? searchProducts(query) : getProductList();
+      promise
+        .then(function (products) {
+          setProducts(products);
+          setLoading(false);
+        })
+        .catch(function (error) {
+          console.error("Error fetching products:", error);
+          setLoading(false);
+        });
+    },
+    [query]
+  );
+
   const filteredProducts = useMemo(
     function () {
-      let filtered = productList.filter(function (item) {
-        return item.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-      });
+      let filtered = productList;
 
       if (sort === "title") {
         filtered = filtered.sort(function (a, b) {
@@ -41,7 +48,7 @@ function HomePage() {
       }
       return filtered;
     },
-    [productList, query, sort]
+    [productList, sort]
   );
 
   const handleSearch = useCallback(
