@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Alert from "../components/Alert";
 import { useNavigate, Link } from "react-router-dom";
-import { FaAmazon } from "react-icons/fa";
 import { withFormik } from "formik";
 import * as Yup from "yup";
 import Input from "../components/Input";
@@ -48,7 +47,11 @@ export const ForgotPasswordPageContent = ({
       }}
     >
       <div className="flex flex-col gap-6 px-4 w-full max-w-md text-white">
-        <FaAmazon className="mx-auto mb-6 text-9xl" />
+        <img
+          src="/images/awesomebuy.png"
+          alt="Logo"
+          className="mx-auto -mb-10"
+        />
         <h1 className="font-bold text-2xl text-center">Reset your password</h1>
         {alert && (
           <Alert

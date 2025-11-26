@@ -44,7 +44,7 @@ function Navbar(props) {
         <div className="flex justify-between items-center mx-auto max-w-xl sm:max-w-2xl md:max-w-4xl lg:max-w-6xl">
           <Link to="/">
             <img
-              src="/images/amazonlogo.svg"
+              src="/images/awesomebuy.png"
               alt="Logo"
               className="h-16 sm:h-20"
             />
