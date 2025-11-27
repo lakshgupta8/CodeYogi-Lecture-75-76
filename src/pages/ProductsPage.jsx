@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 import Filter from "../components/Filter.jsx";
 import ProductGrid from "../components/ProductGrid.jsx";
 import Pagination from "../components/Pagination.jsx";
@@ -11,7 +12,7 @@ function ProductsPage() {
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("default");
-  const [page, setPage] = useState(1);
+  const page = useSearchParams()[0].get("page") || 1;
 
   useEffect(
     function () {
@@ -50,7 +51,6 @@ function ProductsPage() {
 
   const handleSearch = useCallback(
     function (newQuery) {
-      setPage(1);
       setQuery(newQuery);
     },
     [setQuery]
@@ -86,7 +86,7 @@ function ProductsPage() {
       {!loading && productData.products.length > 0 && (
         <>
           <ProductGrid products={productData.products} />
-          <Pagination page={page} setPage={setPage} lastPage={lastPage} />
+          <Pagination page={page} lastPage={lastPage} />
         </>
       )}
       {!loading && productData.products.length === 0 && (
