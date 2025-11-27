@@ -1,11 +1,13 @@
 import axios from "axios";
 
-export function getProductList(sortBy, order, page = 1) {
+export function getProductList(sortBy, order, page) {
   let url = "https://dummyjson.com/products?limit=12";
   if (sortBy && order) {
     url += `&sortBy=${sortBy}&order=${order}`;
   }
-  url += `&skip=${(page - 1) * 12}`;
+  if (page) {
+    url += `&skip=${(page - 1) * 12}`;
+  }
   return axios.get(url).then((response) => response.data);
 }
 
@@ -15,12 +17,14 @@ export function getProduct(id) {
     .then((response) => response.data);
 }
 
-export function searchProducts(query, sortBy, order, page = 1) {
+export function searchProducts(query, sortBy, order, page) {
   let url = `https://dummyjson.com/products/search?q=${query}&limit=12`;
   if (sortBy && order) {
     url += `&sortBy=${sortBy}&order=${order}`;
   }
-  url += `&skip=${(page - 1) * 12}`;
+  if (page) {
+    url += `&skip=${(page - 1) * 12}`;
+  }
   return axios.get(url).then((response) => response.data);
 }
 
