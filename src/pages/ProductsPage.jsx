@@ -7,12 +7,11 @@ import Loading from "../components/Loading.jsx";
 import { getProductList, searchProducts } from "../api.js";
 
 function ProductsPage() {
-  const [productList, setProducts] = useState([]);
+  const [productData, setProductData] = useState({});
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("default");
   const [page, setPage] = useState(1);
-  const [lastPage, setLastPage] = useState(0);
 
   useEffect(
     function () {
@@ -36,8 +35,7 @@ function ProductsPage() {
         : getProductList(sortBy, order, page);
       promise
         .then(function (data) {
-          setProducts(data.products);
-          setLastPage(Math.ceil(data.total / 12));
+          setProductData(data);
           setLoading(false);
         })
         .catch(function (error) {
@@ -47,6 +45,8 @@ function ProductsPage() {
     },
     [query, sort, page]
   );
+
+  const lastPage = Math.ceil(productData.total / 12);
 
   const handleSearch = useCallback(
     function (newQuery) {
@@ -83,13 +83,13 @@ function ProductsPage() {
         />
       </div>
       {loading && <Loading />}
-      {!loading && productList.length > 0 && (
+      {!loading && productData.products.length > 0 && (
         <>
-          <ProductGrid products={productList} />
+          <ProductGrid products={productData.products} />
           <Pagination page={page} setPage={setPage} lastPage={lastPage} />
         </>
       )}
-      {!loading && productList.length === 0 && (
+      {!loading && productData.products.length === 0 && (
         <NoMatch searchQuery={query} onClearSearch={handleClearSearch} />
       )}
     </div>
