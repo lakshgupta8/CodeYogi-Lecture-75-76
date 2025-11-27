@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { range } from "lodash";
 import Filter from "../components/Filter.jsx";
 import ProductGrid from "../components/ProductGrid.jsx";
 import NoMatch from "../components/NoMatch.jsx";
@@ -52,20 +51,56 @@ function ProductsPage() {
 
   const lastPage = Math.ceil(productData.total / 12);
 
-  const pages = range(1, lastPage + 1).map((pageNo) => (
-    <Link
-      to={"?" + new URLSearchParams({ ...params, page: pageNo })}
-      className={
-        "border border-primary-dark w-8 h-8 text-center " +
-        (pageNo === page
-          ? "bg-primary-dark text-white"
-          : "bg-white text-primary-dark hover:bg-primary-dark hover:text-white")
-      }
-      key={pageNo}
-    >
-      {pageNo}
-    </Link>
-  ));
+  const rangeStart = Math.max(1, page - 3);
+  const rangeEnd = Math.min(lastPage, page + 3);
+
+  const pageNumbers = [];
+
+  if (rangeStart > 1) {
+    pageNumbers.push(1);
+    if (rangeStart > 2) {
+      pageNumbers.push("...");
+    }
+  }
+
+  for (let i = rangeStart; i <= rangeEnd; i++) {
+    pageNumbers.push(i);
+  }
+
+  if (rangeEnd < lastPage) {
+    if (rangeEnd < lastPage - 1) {
+      pageNumbers.push("...");
+    }
+    pageNumbers.push(lastPage);
+  }
+
+  const pages = pageNumbers.map((pageNo, index) => {
+    if (pageNo === "...") {
+      return (
+        <div
+          key={index}
+          className="flex justify-center items-center bg-white border border-primary-dark w-8 h-8 text-primary-dark"
+        >
+          ...
+        </div>
+      );
+    }
+
+    return (
+      <Link
+        to={"?" + new URLSearchParams({ ...params, page: pageNo })}
+        className={
+          "border border-primary-dark w-8 h-8 flex items-center justify-center " +
+          (pageNo === page
+            ? "bg-primary-dark text-white"
+            : "bg-white text-primary-dark hover:bg-primary-dark hover:text-white")
+        }
+        key={pageNo}
+      >
+        {pageNo}
+      </Link>
+    );
+  });
 
   const handleSearch = (newQuery) => {
     setSearchParams(
@@ -98,7 +133,29 @@ function ProductsPage() {
       {!loading && productData.products.length > 0 && (
         <>
           <ProductGrid products={productData.products} />
-          <div className="flex gap-1 mt-8">{pages}</div>
+          <div className="flex gap-1 mt-8">
+            {page > 1 && (
+              <Link
+                to={"?" + new URLSearchParams({ ...params, page: page - 1 })}
+                className={
+                  "border border-primary-dark w-8 h-8 text-center bg-white text-primary-dark hover:bg-primary-dark hover:text-white"
+                }
+              >
+                ↼
+              </Link>
+            )}
+            {pages}
+            {page < lastPage && (
+              <Link
+                to={"?" + new URLSearchParams({ ...params, page: page + 1 })}
+                className={
+                  "border border-primary-dark w-8 h-8 text-center bg-white text-primary-dark hover:bg-primary-dark hover:text-white"
+                }
+              >
+                ⇁
+              </Link>
+            )}
+          </div>
         </>
       )}
       {!loading && productData.products.length === 0 && (
