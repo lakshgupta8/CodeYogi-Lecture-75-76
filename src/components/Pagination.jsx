@@ -1,19 +1,23 @@
-import { Link } from "react-router-dom";
+function Pagination({ page, setPage, lastPage }) {
+  const pages = [];
+  for (let i = 1; i <= lastPage; i++) {
+    pages.push(
+      <button
+        onClick={() => setPage(i)}
+        className={
+          "border border-primary-dark w-8 h-8 text-center " +
+          (i === page
+            ? "bg-primary-dark text-white"
+            : "bg-white text-primary-dark hover:bg-primary-dark hover:text-white")
+        }
+        key={i}
+      >
+        {i}
+      </button>
+    );
+  }
 
-function Pagination() {
-  return (
-    <div className="flex gap-1 mt-8">
-      <Link className="bg-white hover:bg-primary-dark focus:bg-primary-dark border border-primary-dark w-8 h-8 text-primary-dark hover:text-white focus:text-white text-center">
-        1
-      </Link>
-      <Link className="bg-white hover:bg-primary-dark focus:bg-primary-dark border border-primary-dark w-8 h-8 text-primary-dark hover:text-white focus:text-white text-center">
-        2
-      </Link>
-      <Link className="bg-white hover:bg-primary-dark focus:bg-primary-dark border border-primary-dark w-8 h-8 text-primary-dark hover:text-white focus:text-white text-center">
-        {"\u2192"}
-      </Link>
-    </div>
-  );
+  return <div className="flex gap-1 mt-8">{pages}</div>;
 }
 
 export default Pagination;

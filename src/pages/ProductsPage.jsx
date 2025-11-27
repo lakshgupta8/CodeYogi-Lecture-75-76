@@ -6,11 +6,13 @@ import NoMatch from "../components/NoMatch.jsx";
 import Loading from "../components/Loading.jsx";
 import { getProductList, searchProducts } from "../api.js";
 
-function HomePage() {
+function ProductsPage() {
   const [productList, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("default");
+  const [page, setPage] = useState(1);
+  const [lastPage, setLastPage] = useState(0);
 
   useEffect(
     function () {
@@ -30,11 +32,12 @@ function HomePage() {
 
       setLoading(true);
       const promise = query
-        ? searchProducts(query, sortBy, order)
-        : getProductList(sortBy, order);
+        ? searchProducts(query, sortBy, order, page)
+        : getProductList(sortBy, order, page);
       promise
-        .then(function (products) {
-          setProducts(products);
+        .then(function (data) {
+          setProducts(data.products);
+          setLastPage(Math.ceil(data.total / 12));
           setLoading(false);
         })
         .catch(function (error) {
@@ -42,11 +45,12 @@ function HomePage() {
           setLoading(false);
         });
     },
-    [query, sort]
+    [query, sort, page]
   );
 
   const handleSearch = useCallback(
     function (newQuery) {
+      setPage(1);
       setQuery(newQuery);
     },
     [setQuery]
@@ -82,7 +86,7 @@ function HomePage() {
       {!loading && productList.length > 0 && (
         <>
           <ProductGrid products={productList} />
-          <Pagination />
+          <Pagination page={page} setPage={setPage} lastPage={lastPage} />
         </>
       )}
       {!loading && productList.length === 0 && (
@@ -92,4 +96,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default ProductsPage;

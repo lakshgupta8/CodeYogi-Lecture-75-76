@@ -5,7 +5,7 @@ import AlertProvider from "./context/AlertProvider";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import NotFound from "./components/NotFound";
-import HomePage from "./pages/HomePage";
+import ProductsPage from "./pages/ProductsPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import LoginPage from "./pages/LoginPage";
@@ -32,7 +32,7 @@ function App() {
 
             <div className="flex-1">
               <Routes>
-                <Route index element={<HomePage />} />
+                <Route index element={<ProductsPage />} />
                 <Route path="/product/:id" element={<ProductDetailPage />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route
