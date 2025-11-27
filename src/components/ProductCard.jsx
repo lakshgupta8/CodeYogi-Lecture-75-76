@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import StarRating from "./StarRating";
 
 function ProductCard({
@@ -10,11 +10,16 @@ function ProductCard({
   discountPercentage,
   thumbnail,
   rating,
+  contextProductList,
 }) {
+  const location = useLocation();
   const originalPrice = (price * 100) / (100 - discountPercentage);
 
   return (
-    <Link to={"/product/" + id} state={{ from: "home" }}>
+    <Link
+      to={"/product/" + id}
+      state={{ from: location, productList: contextProductList }}
+    >
       <div className="flex flex-col bg-white">
         <div className="bg-gray-100 mb-3">
           <img src={thumbnail} alt={title} className="w-full object-contain" />

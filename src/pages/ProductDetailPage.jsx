@@ -14,6 +14,11 @@ const ProductDetailPage = () => {
   const id = +useParams().id;
   const location = useLocation();
   const { addToCart } = useCart();
+
+  const productList = location.state?.productList || [];
+  const currentProductIndex = productList.findIndex((p) => p.id === id);
+  const nextProduct = productList[currentProductIndex + 1];
+  const prevProduct = productList[currentProductIndex - 1];
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -82,10 +87,7 @@ const ProductDetailPage = () => {
       {error && <NotFound />}
       {!loading && !error && (
         <div className="flex flex-col md:px-8 pb-8">
-          <Link
-            to={location?.state?.from === "cart" ? "/cart" : "/"}
-            className="self-end"
-          >
+          <Link to={location.state?.from || "/"} className="self-end">
             <HiOutlineArrowNarrowLeft className="text-gray-800 text-3xl md:text-4xl" />
           </Link>
 
@@ -134,9 +136,10 @@ const ProductDetailPage = () => {
 
               <div className="flex justify-between mt-6 md:mt-10">
                 <div>
-                  {id > 1 && (
+                  {prevProduct && (
                     <Link
-                      to={"/product/" + (id - 1)}
+                      to={"/product/" + prevProduct.id}
+                      state={location.state}
                       className="flex flex-col items-center"
                       onClick={handleProductSwitch}
                     >
@@ -149,9 +152,10 @@ const ProductDetailPage = () => {
                 </div>
 
                 <div>
-                  {id < 194 && (
+                  {nextProduct && (
                     <Link
-                      to={"/product/" + (id + 1)}
+                      to={"/product/" + nextProduct.id}
+                      state={location.state}
                       className="flex flex-col items-center"
                       onClick={handleProductSwitch}
                     >

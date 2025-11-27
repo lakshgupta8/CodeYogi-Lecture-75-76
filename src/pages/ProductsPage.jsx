@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { range } from "lodash";
 import Filter from "../components/Filter.jsx";
 import ProductGrid from "../components/ProductGrid.jsx";
-import Pagination from "../components/Pagination.jsx";
 import NoMatch from "../components/NoMatch.jsx";
 import Loading from "../components/Loading.jsx";
 import { getProductList, searchProducts } from "../api.js";
@@ -10,9 +10,12 @@ import { getProductList, searchProducts } from "../api.js";
 function ProductsPage() {
   const [productData, setProductData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [query, setQuery] = useState("");
-  const [sort, setSort] = useState("default");
-  const page = useSearchParams()[0].get("page") || 1;
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const params = Object.fromEntries([...searchParams]);
+  const page = +params.page || 1;
+  const query = params.query || "";
+  const sort = params.sort || "default";
 
   useEffect(
     function () {
@@ -49,26 +52,35 @@ function ProductsPage() {
 
   const lastPage = Math.ceil(productData.total / 12);
 
-  const handleSearch = useCallback(
-    function (newQuery) {
-      setQuery(newQuery);
-    },
-    [setQuery]
-  );
+  const pages = range(1, lastPage + 1).map((pageNo) => (
+    <Link
+      to={"?" + new URLSearchParams({ ...params, page: pageNo })}
+      className={
+        "border border-primary-dark w-8 h-8 text-center " +
+        (pageNo === page
+          ? "bg-primary-dark text-white"
+          : "bg-white text-primary-dark hover:bg-primary-dark hover:text-white")
+      }
+      key={pageNo}
+    >
+      {pageNo}
+    </Link>
+  ));
 
-  const handleSort = useCallback(
-    function (sortType) {
-      setSort(sortType);
-    },
-    [setSort]
-  );
+  const handleSearch = (newQuery) => {
+    setSearchParams(
+      { ...params, query: newQuery, page: 1 },
+      { replace: false }
+    );
+  };
 
-  const handleClearSearch = useCallback(
-    function () {
-      setQuery("");
-    },
-    [setQuery]
-  );
+  const handleSort = (newSort) => {
+    setSearchParams({ ...params, sort: newSort }, { replace: false });
+  };
+
+  const handleClearSearch = () => {
+    setSearchParams({ ...params, query: "", page: 1 }, { replace: false });
+  };
 
   return (
     <div className="bg-white mx-auto my-8 md:my-16 px-9 py-8 max-w-xl sm:max-w-2xl md:max-w-4xl lg:max-w-6xl">
@@ -86,7 +98,7 @@ function ProductsPage() {
       {!loading && productData.products.length > 0 && (
         <>
           <ProductGrid products={productData.products} />
-          <Pagination page={page} lastPage={lastPage} />
+          <div className="flex gap-1 mt-8">{pages}</div>
         </>
       )}
       {!loading && productData.products.length === 0 && (
