@@ -98,7 +98,29 @@ function ProductsPage() {
       {!loading && productData.products.length > 0 && (
         <>
           <ProductGrid products={productData.products} />
-          <div className="flex gap-1 mt-8">{pages}</div>
+          <div className="flex gap-1 mt-8">
+            {page > 1 && (
+              <Link
+                to={"?" + new URLSearchParams({ ...params, page: page - 1 })}
+                className={
+                  "border border-primary-dark w-8 h-8 text-center bg-white text-primary-dark hover:bg-primary-dark hover:text-white"
+                }
+              >
+                ↼
+              </Link>
+            )}
+            {pages}
+            {page < lastPage && (
+              <Link
+                to={"?" + new URLSearchParams({ ...params, page: page + 1 })}
+                className={
+                  "border border-primary-dark w-8 h-8 text-center bg-white text-primary-dark hover:bg-primary-dark hover:text-white"
+                }
+              >
+                ⇁
+              </Link>
+            )}
+          </div>
         </>
       )}
       {!loading && productData.products.length === 0 && (
