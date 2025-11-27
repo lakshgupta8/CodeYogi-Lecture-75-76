@@ -82,10 +82,7 @@ const ProductDetailPage = () => {
       {error && <NotFound />}
       {!loading && !error && (
         <div className="flex flex-col md:px-8 pb-8">
-          <Link
-            to={location?.state?.from === "cart" ? "/cart" : "/"}
-            className="self-end"
-          >
+          <Link to={location.state?.from || "/"} className="self-end">
             <HiOutlineArrowNarrowLeft className="text-gray-800 text-3xl md:text-4xl" />
           </Link>
 

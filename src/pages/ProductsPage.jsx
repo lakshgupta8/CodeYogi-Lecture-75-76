@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Filter from "../components/Filter.jsx";
 import ProductGrid from "../components/ProductGrid.jsx";
@@ -10,9 +10,11 @@ import { getProductList, searchProducts } from "../api.js";
 function ProductsPage() {
   const [productData, setProductData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [query, setQuery] = useState("");
-  const [sort, setSort] = useState("default");
-  const page = useSearchParams()[0].get("page") || 1;
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const page = searchParams.get("page") || 1;
+  const query = searchParams.get("query") || "";
+  const sort = searchParams.get("sort") || "default";
 
   useEffect(
     function () {
@@ -49,27 +51,6 @@ function ProductsPage() {
 
   const lastPage = Math.ceil(productData.total / 12);
 
-  const handleSearch = useCallback(
-    function (newQuery) {
-      setQuery(newQuery);
-    },
-    [setQuery]
-  );
-
-  const handleSort = useCallback(
-    function (sortType) {
-      setSort(sortType);
-    },
-    [setSort]
-  );
-
-  const handleClearSearch = useCallback(
-    function () {
-      setQuery("");
-    },
-    [setQuery]
-  );
-
   return (
     <div className="bg-white mx-auto my-8 md:my-16 px-9 py-8 max-w-xl sm:max-w-2xl md:max-w-4xl lg:max-w-6xl">
       <div className="flex flex-col gap-4">
@@ -78,8 +59,12 @@ function ProductsPage() {
         <Filter
           query={query}
           sort={sort}
-          onSearch={handleSearch}
-          onSort={handleSort}
+          onSearch={(newQuery) => {
+            setSearchParams({ query: newQuery });
+          }}
+          onSort={(sortType) => {
+            setSearchParams({ sort: sortType });
+          }}
         />
       </div>
       {loading && <Loading />}
@@ -90,7 +75,12 @@ function ProductsPage() {
         </>
       )}
       {!loading && productData.products.length === 0 && (
-        <NoMatch searchQuery={query} onClearSearch={handleClearSearch} />
+        <NoMatch
+          searchQuery={query}
+          onClearSearch={() => {
+            setSearchParams({ query: "" });
+          }}
+        />
       )}
     </div>
   );

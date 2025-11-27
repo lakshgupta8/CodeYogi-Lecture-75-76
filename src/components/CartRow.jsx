@@ -1,5 +1,5 @@
 import { memo, useMemo, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { TiDeleteOutline } from "react-icons/ti";
 import { useCart } from "../context/CartContext";
 
@@ -33,6 +33,8 @@ function CartRow(props) {
     [removeFromCart, item.id]
   );
 
+  const location = useLocation();
+
   return (
     <div className="flex flex-col items-center gap-4 sm:grid grid-cols-12 px-4 py-3 font-medium text-gray-800 text-center">
       <button
@@ -53,7 +55,7 @@ function CartRow(props) {
 
         <Link
           to={"/product/" + item.id}
-          state={{ from: "cart" }}
+          state={{ from: location }}
           className="hidden sm:flex items-center gap-4 md:gap-6"
         >
           <img
