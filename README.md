@@ -2,6 +2,9 @@
 
 A modern, responsive, and feature-rich e-commerce application built with React, Vite, and Tailwind CSS. This project demonstrates a complete shopping experience including product browsing, detailed views, cart management, and user authentication.
 
+### Implementation Notes
+- **Authentication Scope**: Unlike the video tutorial, which secured all pages, this project implements protected routes specifically for dashboard and other authentication-dependent sections.
+
 ## 🚀 Features
 
 ### 🛍️ Product Browsing
@@ -44,16 +47,45 @@ A modern, responsive, and feature-rich e-commerce application built with React, 
 -   **Icons**: [React Icons](https://react-icons.github.io/react-icons/)
 -   **Utilities**: [Lodash](https://lodash.com/)
 
-## 📂 Project Structure
+## 📁 Project Structure
 
 ```
-src/
-├── components/       # Reusable UI components (Navbar, ProductCard, etc.)
-├── context/          # Global state providers (User, Cart, Alert)
-├── pages/            # Main route components (ProductsPage, CartPage, etc.)
-├── api.js            # API integration functions
-├── App.jsx           # Main application component with routing
-└── main.jsx          # Entry point
+CodeYogi-Lecture-75-76/
+├── src/
+│   ├── components/          # Reusable UI components
+│   │   ├── Navbar.jsx
+│   │   ├── Footer.jsx
+│   │   ├── ProductCard.jsx
+│   │   ├── ProductGrid.jsx
+│   │   ├── CartList.jsx
+│   │   ├── CartRow.jsx
+│   │   ├── CartTotals.jsx
+│   │   ├── Filter.jsx
+│   │   ├── Pagination.jsx
+│   │   ├── Loading.jsx
+│   │   ├── UserRoute.jsx    # Protected route wrapper
+│   │   └── ...
+│   ├── pages/               # Page components
+│   │   ├── HomePage.jsx
+│   │   ├── ProductDetailPage.jsx
+│   │   ├── CartPage.jsx
+│   │   ├── LoginPage.jsx
+│   │   ├── SignUpPage.jsx
+│   │   ├── ForgotPasswordPage.jsx
+│   │   └── DashboardPage.jsx
+│   ├── context/             # React Context providers
+│   │   ├── CartContext.js
+│   │   ├── CartProvider.jsx
+│   │   ├── UserContext.js
+│   │   └── UserProvider.jsx
+│   ├── hooks/               # Custom React hooks
+│   ├── api.js               # API client configuration
+│   ├── App.jsx              # Main app component
+│   └── main.jsx             # App entry point
+├── public/                  # Static assets
+├── index.html
+├── vite.config.js
+└── package.json
 ```
 
 ## 🚀 Getting Started
@@ -67,8 +99,8 @@ src/
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/e-commerce-app.git
-    cd e-commerce-app
+    git clone <repository-url>
+    cd CodeYogi-Lecture-75-76
     ```
 
 2.  **Install dependencies:**
@@ -95,16 +127,96 @@ src/
 -   `lint`: Runs ESLint to check for code quality issues.
 -   `preview`: Previews the production build locally.
 
+## 🔐 Authentication Flow
+
+The application implements a complete authentication system:
+
+1. **Sign Up**: New users can create an account with email and password
+2. **Login**: Existing users can sign in with their credentials
+3. **Token Management**: JWT tokens stored in localStorage for session persistence
+4. **Protected Routes**: Dashboard accessible only to authenticated users
+5. **Auto Login**: Users automatically logged in if valid token exists
+6. **Logout**: Clear user session and redirect to home
+
+## 🛒 Shopping Cart
+
+The cart system uses React Context API for state management:
+
+- Add/remove products from cart
+- Adjust item quantities
+- Persistent cart state across navigation
+- Real-time total calculation
+- Empty cart state handling
+
+## 📱 Responsive Design
+
+- Mobile-first approach with Tailwind CSS
+- Dedicated mobile menu component
+- Optimized layouts for all screen sizes
+- Touch-friendly UI elements
+
+## 🌐 API Integration
+
+The application connects to a backend API for:
+- Product data fetching
+- User authentication
+- Cart operations
+- Order management
+
+API base URL: `https://r5ftltl6sj.execute-api.us-east-1.amazonaws.com`
+
+## 🎨 UI Components
+
+### Reusable Components
+- **ProductCard**: Display product information in grid
+- **Filter**: Search and filter products
+- **Pagination**: Navigate through product pages
+- **StarRating**: Visual product ratings
+- **Loading**: Loading state indicators
+- **Input**: Styled form input component
+- **UserRoute**: Authentication wrapper for protected routes
+
+## 🔧 Configuration
+
+### Vite Configuration
+Located in `vite.config.js` - configured for React with optimal build settings.
+
+### Tailwind CSS
+Using Tailwind CSS v4 with Vite plugin for styling.
+
+### ESLint
+Code quality maintained with ESLint and recommended React rules.
+
+## 📦 Dependencies
+
+### Production
+- React & React DOM for UI
+- React Router for navigation
+- Axios for API calls
+- Formik & Yup for forms and validation
+- Tailwind CSS for styling
+
+### Development
+- Vite for fast development
+- ESLint for code quality
+- Prettier for code formatting
+
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1.  Fork the project
-2.  Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4.  Push to the branch (`git push origin feature/AmazingFeature`)
-5.  Open a Pull Request
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is part of the CodeYogi Lecture series.
+
+## 👨‍💻 Developer
+
+Created as part of CodeYogi's Non-Assignment Lectures - 77.
+
+---
+
+**Note**: This is a learning project built as part of a coding course. The backend API is hosted on AWS Lambda and may have usage limitations.
