@@ -2,6 +2,10 @@
 
 A modern, responsive, and feature-rich e-commerce application built with React, Vite, and Tailwind CSS. This project demonstrates a complete shopping experience including product browsing, detailed views, cart management, and user authentication.
 
+### 🌐 Live Preview
+
+Check out the live demo here: [AwesomeBuy](https://codeyogi-lecture-75-76.netlify.app/)
+
 ### Implementation Notes
 - **Authentication Scope**: Unlike the video tutorial, which secured all pages, this project implements protected routes specifically for dashboard and other authentication-dependent sections.
 
